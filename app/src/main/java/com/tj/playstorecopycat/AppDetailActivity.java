@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.tj.playstorecopycat.databinding.ActivityAppDetailBinding;
 import com.tj.playstorecopycat.datas.App;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.SimpleTimeZone;
 
 public class AppDetailActivity extends AppCompatActivity {
 
@@ -46,8 +48,7 @@ public class AppDetailActivity extends AppCompatActivity {
             act.removeBtn.setVisibility(View.VISIBLE);
             act.launchBtn.setVisibility(View.VISIBLE);
             act.purchaseBtn.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             act.removeBtn.setVisibility(View.GONE);
             act.launchBtn.setVisibility(View.GONE);
             act.purchaseBtn.setVisibility(View.VISIBLE);
@@ -68,29 +69,34 @@ public class AppDetailActivity extends AppCompatActivity {
             }
         });
 
-    act.dateTxt.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Log.d("텍스트뷰 클릭","실제로 동작하나?");
-            DatePickerDialog dpd = new DatePickerDialog(AppDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        act.dateTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("텍스트뷰 클릭", "실제로 동작하나?");
+                DatePickerDialog dpd = new DatePickerDialog(AppDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 //                    Toast.makeText(AppDetailActivity.this, String.format("%d년 %d월 %d일",year,month,dayOfMonth), Toast.LENGTH_SHORT).show();
-                    Calendar cal  = Calendar.getInstance();
+                        Calendar cal = Calendar.getInstance();
 
-                    cal.set(Calendar.YEAR, year);
-                    cal.set(Calendar.MARCH,month);
-                    cal.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                        cal.set(Calendar.YEAR, year);
+                        cal.set(Calendar.MARCH, month);
+                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                    cal.set(year,month,dayOfMonth);
+                        cal.set(year, month, dayOfMonth);
+//    어떤 양식으로 문자를 출력할지 지정, 양식 지정.
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy 년  M월 4일");
+//                        지정된 양식으로 Calender 변수를 String 으로 변환.
+                        String dateStr = sdf.format(cal.getTimeInMillis());
+//                        만들어진 String
 
+                        act.dateTxt.setText(dateStr);
 
+                    }
+                }, 2019, 3, 27);
 
-                }
-            }, 2019 , 3 , 27);
-
-            dpd.show();
-        }
-    });
+                dpd.show();
+            }
+        });
     }
 }
