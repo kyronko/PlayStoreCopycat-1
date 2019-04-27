@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.tj.playstorecopycat.databinding.ActivityAppDetailBinding;
 import com.tj.playstorecopycat.datas.App;
+
+import java.util.Calendar;
 
 public class AppDetailActivity extends AppCompatActivity {
 
@@ -72,6 +75,16 @@ public class AppDetailActivity extends AppCompatActivity {
             DatePickerDialog dpd = new DatePickerDialog(AppDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                    Toast.makeText(AppDetailActivity.this, String.format("%d년 %d월 %d일",year,month,dayOfMonth), Toast.LENGTH_SHORT).show();
+                    Calendar cal  = Calendar.getInstance();
+
+                    cal.set(Calendar.YEAR, year);
+                    cal.set(Calendar.MARCH,month);
+                    cal.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+
+                    cal.set(year,month,dayOfMonth);
+
+
 
                 }
             }, 2019 , 3 , 27);
