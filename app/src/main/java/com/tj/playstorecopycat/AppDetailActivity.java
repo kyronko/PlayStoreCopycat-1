@@ -1,6 +1,7 @@
 package com.tj.playstorecopycat;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.tj.playstorecopycat.databinding.ActivityAppDetailBinding;
@@ -16,6 +18,7 @@ import com.tj.playstorecopycat.datas.App;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.SimpleTimeZone;
 
 public class AppDetailActivity extends AppCompatActivity {
@@ -96,6 +99,26 @@ public class AppDetailActivity extends AppCompatActivity {
                 }, 2019, 3, 27);
 
                 dpd.show();
+            }
+        });
+
+        act.timeTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog tpd = new TimePickerDialog(AppDetailActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        cal.set(Calendar.MINUTE,minute);
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("a h시  m분", Locale.KOREA);
+
+                        String timestr = sdf.format(cal.getTimeInMillis());
+                        act.timeTxt.setText(timestr);
+                    }
+                }, 15, 15,true);
+                tpd.show();
             }
         });
     }
