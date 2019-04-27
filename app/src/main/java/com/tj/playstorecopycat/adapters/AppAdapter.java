@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tj.playstorecopycat.R;
 import com.tj.playstorecopycat.datas.App;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppAdapter extends ArrayAdapter<App> {
@@ -29,7 +31,6 @@ public class AppAdapter extends ArrayAdapter<App> {
     }
 
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -47,6 +48,34 @@ public class AppAdapter extends ArrayAdapter<App> {
         TextView companyNameTxt = row.findViewById(R.id.companyNameTxt);
         TextView priceOrInstalledTxt = row.findViewById(R.id.priceOrInstalledTxt);
 
+        ImageView star1 = row.findViewById(R.id.star1);
+        ImageView star2 = row.findViewById(R.id.star2);
+        ImageView star3 = row.findViewById(R.id.star3);
+        ImageView star4 = row.findViewById(R.id.star4);
+        ImageView star5 = row.findViewById(R.id.star5);
+
+
+        List<ImageView> stars = new ArrayList<>();
+        stars.add(star1);
+        stars.add(star2);
+        stars.add(star3);
+        stars.add(star4);
+        stars.add(star5);
+
+        for (ImageView star :stars){
+            star.setImageResource(R.drawable.star_empty);
+        }
+        for(int i = 0;i<appData.userRating ; i++){
+            stars.get(i).setImageResource(R.drawable.star_fill);
+        }
+
+//        if (appData.userRating == 1) {
+//            star1.setImageResource(R.drawable.star_fill);
+//            star2.setImageResource(R.drawable.star_empty);
+//            star3.setImageResource(R.drawable.star_empty);
+//            star4.setImageResource(R.drawable.star_empty);
+//            star5.setImageResource(R.drawable.star_empty);
+//        }
 
 //        등수와 제목을 세팅.
         rankAndTitleTxt.setText(String.format("%d. %s", appData.rank, appData.title));
@@ -61,8 +90,7 @@ public class AppAdapter extends ArrayAdapter<App> {
 
             priceOrInstalledTxt.setText("설치된 항목");
 
-        }
-        else {
+        } else {
 //            설치하지 않은 경우.
 //            String.format의 %,d 를 이용해 세자리마다 컴마 찍음.
             priceOrInstalledTxt.setText(String.format("%,d원", appData.price));
