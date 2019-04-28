@@ -72,6 +72,15 @@ public class AppDetailActivity extends AppCompatActivity {
             }
         });
 
+act.smsBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Uri smsUri =Uri.parse("smsto:01012345678");
+        Intent intent = new Intent(Intent.ACTION_SENDTO,smsUri);
+        intent.putExtra("sms body", "미리 작성될 메세지");
+        startActivity(intent);
+    }
+});
         act.dateTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,47 +88,44 @@ public class AppDetailActivity extends AppCompatActivity {
                 DatePickerDialog dpd = new DatePickerDialog(AppDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                    Toast.makeText(AppDetailActivity.this, String.format("%d년 %d월 %d일",year,month,dayOfMonth), Toast.LENGTH_SHORT).show();
-                        Calendar cal = Calendar.getInstance();
+                        Calendar cal =  Calendar.getInstance();
+                        cal.set(Calendar.YEAR,year);
+                        cal.set(Calendar.MONTH,month);
+                        cal.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                        cal.set(year,month,dayOfMonth);
 
-                        cal.set(Calendar.YEAR, year);
-                        cal.set(Calendar.MARCH, month);
-                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일");
 
-                        cal.set(year, month, dayOfMonth);
-//    어떤 양식으로 문자를 출력할지 지정, 양식 지정.
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy 년  M월 4일");
-//                        지정된 양식으로 Calender 변수를 String 으로 변환.
-                        String dateStr = sdf.format(cal.getTimeInMillis());
-//                        만들어진 String
-
-                        act.dateTxt.setText(dateStr);
+                        String datestr = sdf.format(cal.getTimeInMillis());
+                        act.dateTxt.setText(datestr);
 
                     }
                 }, 2019, 3, 27);
 
                 dpd.show();
+
             }
         });
-
         act.timeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog tpd = new TimePickerDialog(AppDetailActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                        cal.set(Calendar.MINUTE,minute);
+                            Calendar cal = Calendar.getInstance();
+                            cal.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                            cal.set(Calendar.MINUTE,minute);
+                            SimpleDateFormat sdf = new SimpleDateFormat("a h시 m분");
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("a h시  m분", Locale.KOREA);
-
-                        String timestr = sdf.format(cal.getTimeInMillis());
-                        act.timeTxt.setText(timestr);
+                            String timestr = sdf.format(cal.getTimeInMillis());
+                            act.timeTxt.setText(timestr);
                     }
-                }, 15, 15,true);
+                }, 3,15,true);
                 tpd.show();
             }
         });
+
+//        날짜를 누르고 선택하면 반영되게
+//        시간을 누르고 선택하면 반영 되게, AM/PM 을 오전/ 오후로 변경.
     }
 }
