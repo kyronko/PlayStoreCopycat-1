@@ -107,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        act.filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,FilterActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
