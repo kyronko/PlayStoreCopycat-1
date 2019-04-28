@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FilterActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, REQ_FOR_FILTER);
             }
         });
 
@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     void fillApps() {
 
