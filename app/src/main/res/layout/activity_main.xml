@@ -19,6 +19,7 @@
                 android:gravity="center"
                 android:text="플레이스토어 게임 순위"/>
             <TextView
+                android:id="@+id/filterRatingTxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

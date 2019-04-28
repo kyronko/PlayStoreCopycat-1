@@ -3,9 +3,11 @@ package com.tj.playstorecopycat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -17,8 +19,10 @@ import com.tj.playstorecopycat.datas.App;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    static int REQ_FOR_FILTER = 150;
 
     AppAdapter mAppAdapter;
 
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder okAlert = new AlertDialog.Builder(MainActivity.this);
                 okAlert.setTitle("게임 추가 알림");
                 okAlert.setMessage("임시게임이 추가됩니다.");
-                okAlert.setPositiveButton("확인",null);
+                okAlert.setPositiveButton("확인", null);
                 okAlert.show();
 
                 appList.add(new App(10, "임시 게임", "미상", 4, 39800, false));
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 //                Ex. 리스트에 앱이 6개 : 마지막꺼는 몇번?5
 //                Ex. 리스트에 앱이 2개 : 마지막꺼는? 1번
 
-                act.appRankListView.smoothScrollToPosition(appList.size()-1);
+                act.appRankListView.smoothScrollToPosition(appList.size() - 1);
 
             }
         });
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                final  int finalPostion = position;
+                final int finalPostion = position;
 //                Toast.makeText(MainActivity.this, String.format("%d번 줄을 오래 누름", position), Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("앱 삭제 확인");
@@ -93,14 +97,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        appList.remove(finalPostion );
+                        appList.remove(finalPostion);
 
                         mAppAdapter.notifyDataSetChanged();
                         Toast.makeText(MainActivity.this, "해당 앱이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
-               alert.setNegativeButton("취소", null);
-               alert.show();
+                alert.setNegativeButton("취소", null);
+                alert.show();
 
 
                 return true;
@@ -110,13 +114,30 @@ public class MainActivity extends AppCompatActivity {
         act.filterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,FilterActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, FilterActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("액티비티 결과","결과가 돌아옴!");
+        Log.d("리퀘스트코드",requestCode+"");
+        Log.d("ResultCode",resultCode+"");
+        if (requestCode ==REQ_FOR_FILTER){
+            if (resultCode == RESULT_OK){
+//                Toast.makeText(this, "필터가 설정 되었습니다.", Toast.LENGTH_SHORT).show();
+                int filteredRating = data.getIntExtra("최소평점",0);
+                act.filterRatingTxt.setText(String.format("(현재 필터 : %d 점)",filteredRating));
+            }
+            else {
+                Toast.makeText(this, "필터설정을 취소했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     void fillApps() {
 

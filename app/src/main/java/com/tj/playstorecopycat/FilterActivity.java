@@ -18,20 +18,19 @@ public class FilterActivity extends AppCompatActivity {
         act.okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //결과를 저장해서, 필터 화면을 호울한 곳을 돌아가도록.
+                //결과를 저장해서, 필터 화면을 호울한 곳을 돌아가도록.
 //                1. 결과 저장
                 int minRating = Integer.parseInt(act.minRatingEdt.getText().toString());
-//                2. 메인 화면으로 돌아가기, 새로 띄우는게 x, 이전화면으로 돌아가기.
+
+//                2. 메인화면으로 돌아가기. 새로 띄우는게 X, 이전 화면으로 돌아가기 => 지금 화면을 닫는다.
 //                돌아가는 Intent는 new Intent() 안에 아무것도 넣지 않음.
                 Intent resultIntent = new Intent();
-
-                resultIntent.putExtra("최소평점",minRating);
-
-                setResult(RESULT_OK,resultIntent);
+//                결과 인텐트에 입력한 최소 평점을 첨부
+                resultIntent.putExtra("최소평점", minRating);
+//                finish 하기 전에 결과를 설정.
+                setResult(RESULT_OK, resultIntent);
+//                모든 설정이 끝났으니 이 화면을 닫는다.
                 finish();
-
-
-
             }
         });
     }
